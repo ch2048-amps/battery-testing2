@@ -13,8 +13,11 @@ print()
 try:
     '''connect to instrument'''
     print("Attempt initation:")
-    keithleyPS = rm.open_resource('USB0::0x05E6::0x2230::9104291::0::INSTR')
-    keithleyEL = rm.open_resource('USB0::0x05E6::0x2230::9104291::INSTR')
+    print("del 1")
+    keithleyPS = rm.open_resource('USB0::0x05E6::0x2230::9104291::INSTR')
+    print("open ps")
+    keithleyEL = rm.open_resource('USB0::0x05E6::0x2380::802436012717810052::INSTR')
+    print("open el")
 
     print("Query 1: " + keithleyPS.query('*IDN?'))
     keithleyPS.write("*rst; status:preset; *cls")

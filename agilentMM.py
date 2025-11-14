@@ -1,11 +1,19 @@
 import pyvisa
 import time
+import math
+import numpy
+import matplotlib.pyplot as plt 
 
 duration = 3
 t = 1               # time between samples
 i = 0               # loop counter
+V = [0]*math.ceil(duration/t) # voltage samples
+I = [0]*math.ceil(duration/t) # current samples
+times = numpy.linspace(1, math.ceil(duration/t), math.ceil(duration/t))
 
-# this is only to use keysight devices
+ran = False
+
+# need
 rm = pyvisa.ResourceManager(r'C:\WINDOWS\system32\visa64.dll')
 
 print("Resource Manager: ")
@@ -79,21 +87,48 @@ try:
     time.sleep(2)
     print(agilentMM.query('MEAS:VOLT:DC? 10,0.001')) # get the voltage in 10V range, 1mV resolution
     print(agilentMM.query('MEAS:CURR:AC? 1'))
-    
+
+    ran = True
+
     # for some reason this program does not co-operate using for loops
     while(duration - t*i >= 0):
-        print(agilentMM.query('MEAS:VOLT:DC? 10,0.001')) # get the voltage in 10V range, 1mV resolution
-        print(agilentMM.query('MEAS:CURR:AC? 1'))
+        print(duration - t*i)
+        V[i] = agilentMM.query('MEAS:VOLT:DC? 10,0.001') # get the voltage in 10V range, 1mV resolution
+        I[i] = agilentMM.query('MEAS:CURR:AC? 1, 0.001')
         i += 1
         time.sleep(t)
 
-    print("end of prog")
+    # also after the while finishes running, execption "timeout" will occur
+
 
 except(KeyboardInterrupt):
     print('Keyboard Interrupted execution!')
 
 except:
     print('Timeout!')
+    print(ran)
+
+# will show the V graph, then you need to close before it shows I graph
+
+if(ran):
+    # Plot V
+    plt.plot(times, V, label='N/A')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('V vs Time')
+    plt.legend()
+    plt.show()
+
+    # Plot I
+    plt.plot(times, I, label='N/A')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('V vs Time')
+    plt.legend()
+    plt.show()
+
+    print("finished plotting")
+
 time.sleep(3)
 agilentMM.close()
 

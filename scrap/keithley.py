@@ -75,12 +75,13 @@ try:
     print(" Current: " + keithleyPS.query('FETC:CURR? ALL')) # read the outputted current
     print(" Power: " + keithleyPS.query('FETC:POW? ALL'))  # read the power outputted
 
+    '''
     # measure vs fetch
     # measure: take a new single-point measurement
     # fetch: retrieve the most recent measurement after measruement cycle initiated with INIT
     # fetch tends to be faster
 
-    # '''Turn on the power supply for t[s], then off for t[s] for [rounds] rounds'''
+    # Turn on the power supply for t[s], then off for t[s] for [rounds] rounds
     # rounds = 2
     # t = 45*60 # time per round in seconds
 
@@ -91,7 +92,7 @@ try:
     #     time.sleep(t)
 
     # print("end")
-
+    '''
 
     # DC load thing
     print("dc load start init")
@@ -99,6 +100,7 @@ try:
     keithleyEL.write('CURR:PROT:LEV 2')  # set over-current level [A]
     keithleyEL.write('CURR:PROT:DEL 1')  # set amt time [s] oc level can be violated
     print("init dc load")
+
     # # set voltage bounds in CC [V]
     # keithleyEL.write('CURR:LOW 1')
     # keithleyEL.write('CURR:HIGH 2')
@@ -112,6 +114,7 @@ try:
     
     # # set resistance when operating in constant resistance mode [OHMS]
     # keithleyEL.write('RES 5')
+    
     print("attempt fetch")
     print(keithleyEL.query('FETC:VOLT?')) # get the voltage across the terminals
     # print(keithleyEL.query('FETC:VOLT:MAX?')) # get the maximum last recprded voltage

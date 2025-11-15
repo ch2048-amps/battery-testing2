@@ -2,8 +2,23 @@
 
 import pyvisa
 import time
+import numpy
+import math
 
-# this is only to use keysight devices
+# 
+n = 2       # number of measurements
+t = 0.1*60  # time per round in seconds
+i = 0       # counter
+
+totalTime = n*t      # total time of experiment
+ran = False
+
+V = [0]*math.ceil(n) # voltage samples
+I = [0]*math.ceil(n) # current samples
+P = [0]*math.ceil(n) # power samples
+
+
+# use
 rm = pyvisa.ResourceManager(r'C:\WINDOWS\system32\visa64.dll')
 
 print("Resource Manager: ")
@@ -90,12 +105,13 @@ try:
     # fetch: retrieve the most recent measurement after measruement cycle initiated with INIT
     # fetch tends to be faster
 
-	# '''Take [n] measurements spaced every t[s]'''
-    n = 2
-    t = 0.1*60 # time per round in seconds
-
+    '''Take [n] measurements spaced every t[s]'''   
     for i in range (n):
-        print(" Voltage: " + keithleyEL.query('FETC:VOLT?')) # read the outputted voltage
+        V[i] = keithleyEL.query('FETC:VOLT?')
+        # I[i] = keithleyEL.query('FETC:CURR?MAX?')
+        # P[i] = keithleyEL.query('FETC:POW?:MAX')
+
+        print(" Voltage: " + str(V[i])) # read the outputted voltage
         # print(" Maximum Current: " + keithleyEL.query('FETC:CURR?:MAX')) # read the outputted current
         # print(" Minimum Current: " + keithleyEL.query('FETC:CURR?:MIN')) # read the outputted current
         # print(" Maximum Power: " + keithleyEL.query('FETC:POW?:MAX'))  # read the power outputted
@@ -103,6 +119,7 @@ try:
 
         time.sleep(t)
 
+    ran = True
     print("end")
 
 except(KeyboardInterrupt):
@@ -110,5 +127,11 @@ except(KeyboardInterrupt):
 
 except:
     print('Timeout!')
+
+if(ran):
+    numpy.savetext("keithleyEL_voltages.csv", V, fmt='%.3e')
+    # numpy.savetext("keithleyEL_currents.csv", I, fmt='%.3e')
+    # numpy.savetext("keithleyEL_power.csv", P fmt='%.3e')
+
 time.sleep(3)
 keithleyEL.close()

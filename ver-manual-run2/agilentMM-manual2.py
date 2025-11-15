@@ -111,6 +111,10 @@ except:
 # will show the V graph, then you need to close before it shows I graph
 
 if(ran):
+    # save the data as .csv *supposedly 3 decimal accuracy
+    numpy.savetext("agilent_voltages.csv", V, fmt='%.3e')
+    numpy.savetext("agilent_currents.csv", I, fmt='%.3e')
+
     # Plot V
     plt.plot(times, V, label='N/A')
     plt.xlabel('x')

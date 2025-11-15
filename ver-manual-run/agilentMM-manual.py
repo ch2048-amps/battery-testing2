@@ -3,19 +3,10 @@ import time
 import math
 import numpy
 import matplotlib.pyplot as plt 
-import sys
-# get parameters
-totalTs = int(sys.argv[1])
-sampleTs = int(sys.argv[2])
 
-print("recieved params")
-print(f"totalTS: ", totalTs)
-print(f"sampleTS: ", sampleTs)
-print("--- \n")
-
-duration = totalTs
-t = sampleTs                  # time between samples
-i = 0                         # loop counter
+duration = 3
+t = 1               # time between samples
+i = 0               # loop counter
 V = [0]*math.ceil(duration/t) # voltage samples
 I = [0]*math.ceil(duration/t) # current samples
 times = numpy.linspace(1, math.ceil(duration/t), math.ceil(duration/t))
@@ -140,4 +131,3 @@ if(ran):
 
 time.sleep(3)
 agilentMM.close()
-

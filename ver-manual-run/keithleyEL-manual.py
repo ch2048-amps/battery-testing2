@@ -2,22 +2,8 @@
 
 import pyvisa
 import time
-import sys
 
-# get parameters
-totalTs = int(sys.argv[1])
-sampleTs = int(sys.argv[2])
-
-print("recieved params")
-print(f"totalTS: ", totalTs)
-print(f"sampleTS: ", sampleTs)
-print("--- \n")
-
-# '''Take [n] measurements spaced every t[s]'''
-n = totalTs/sampleTs
-t = 0.1*60 # time per round in seconds
-
-# continue prog
+# this is only to use keysight devices
 rm = pyvisa.ResourceManager(r'C:\WINDOWS\system32\visa64.dll')
 
 print("Resource Manager: ")
@@ -104,6 +90,9 @@ try:
     # fetch: retrieve the most recent measurement after measruement cycle initiated with INIT
     # fetch tends to be faster
 
+	# '''Take [n] measurements spaced every t[s]'''
+    n = 2
+    t = 0.1*60 # time per round in seconds
 
     for i in range (n):
         print(" Voltage: " + keithleyEL.query('FETC:VOLT?')) # read the outputted voltage
@@ -123,4 +112,3 @@ except:
     print('Timeout!')
 time.sleep(3)
 keithleyEL.close()
-

@@ -3,7 +3,13 @@
 import pyvisa
 import time
 
-# this is only to use keysight devices
+# parameters Unit
+n = 2       # [ ] number of total measurements (is TotalTime/t)
+t = 6       # [s] time between measurements in seconds
+
+TotalTime = n*t     # total time in seconds, unused is for reference
+
+# Continue prog
 rm = pyvisa.ResourceManager(r'C:\WINDOWS\system32\visa64.dll')
 
 print("Resource Manager: ")
@@ -91,9 +97,6 @@ try:
     # fetch tends to be faster
 
 	# '''Take [n] measurements spaced every t[s]'''
-    n = 2
-    t = 0.1*60 # time per round in seconds
-
     for i in range (n):
         print(" Voltage: " + keithleyEL.query('FETC:VOLT?')) # read the outputted voltage
         # print(" Maximum Current: " + keithleyEL.query('FETC:CURR?:MAX')) # read the outputted current

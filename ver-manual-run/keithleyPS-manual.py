@@ -3,7 +3,13 @@
 import pyvisa
 import time
 
-# this is only to use keysight devices
+# parameters  Unit
+rounds = 2  # [ ] total number of on/off cycles, is (TotalTime/t)
+t = 6       # [s] Ton = Toff interval time in seconds
+
+TotalTime = rounds*t # reference
+
+# Continue prog
 rm = pyvisa.ResourceManager(r'C:\WINDOWS\system32\visa64.dll')
 
 print("Resource Manager: ")
@@ -79,10 +85,7 @@ try:
     # fetch: retrieve the most recent measurement after measruement cycle initiated with INIT
     # fetch tends to be faster
 
-		# '''Turn on the power supply for t[s], then off for t[s] for [rounds] rounds'''
-    rounds = 2
-    t = 0.1*60 # time per round in seconds
-
+	# '''Turn on the power supply for t[s], then off for t[s] for [rounds] rounds'''
     for i in range (rounds):
         keithleyPS.write('APPL CH1, 1.00, 0.0')  
         time.sleep(t)

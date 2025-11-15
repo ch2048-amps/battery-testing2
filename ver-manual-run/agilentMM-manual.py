@@ -4,16 +4,18 @@ import math
 import numpy
 import matplotlib.pyplot as plt 
 
-duration = 3
-t = 1               # time between samples
-i = 0               # loop counter
+# params             Units
+duration = 3        # [s] total time of experiment in seconds
+t = 1               # [s] between samples
+i = 0               # [ ] loop counter
+
 V = [0]*math.ceil(duration/t) # voltage samples
 I = [0]*math.ceil(duration/t) # current samples
 times = numpy.linspace(1, math.ceil(duration/t), math.ceil(duration/t))
 
 ran = False
 
-# need
+# Continue Prog
 rm = pyvisa.ResourceManager(r'C:\WINDOWS\system32\visa64.dll')
 
 print("Resource Manager: ")
